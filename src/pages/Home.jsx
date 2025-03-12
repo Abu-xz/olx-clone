@@ -1,19 +1,10 @@
-import React, { useContext, useEffect } from 'react'
 import Navbar from '../components/Navbar'
 import ProductList from '../components/ProductList'
 import Footer from '../components/Footer'
-import { AuthContext } from '../store/Auth/AuthContext'
-import { useNavigate } from 'react-router-dom'
 
 
 function Home() {
 
-    const {user} = useContext(AuthContext);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        console.log('user state: ', user)
-    }, [user, navigate])
 
 
     return (

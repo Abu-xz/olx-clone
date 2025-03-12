@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/setup";
 import { setDoc, doc } from "firebase/firestore";
@@ -10,7 +10,6 @@ const Signup = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const { setUser } = useContext(AuthContext);
 
 
     const handleSubmit = async (e) => {
@@ -29,7 +28,8 @@ const Signup = () => {
                     name,
                     email,
                 })
-                setUser({name, email})
+
+                // setup user data
             } else {
                 console.error('User UID is undefined')
             }

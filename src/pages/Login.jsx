@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/setup";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../store/Auth/AuthContext";
 import { getDoc, doc } from "firebase/firestore";
 
 
@@ -12,13 +11,8 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-    const { user, setUser } = useContext(AuthContext);
 
-    useEffect(() => {
-        if(user){
-            navigate('/')
-        }
-    },[user, navigate])
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -31,7 +25,7 @@ const Login = () => {
             console.log('user doc', userDoc)
             const userData = userDoc.exists() ? userDoc.data() : { name: 'Unknown' };
             console.log('User data', userData)
-            setUser({ name: userData.name, email: email });
+          
             alert('logged in successfully')
             navigate('/')
         } catch (error) {
