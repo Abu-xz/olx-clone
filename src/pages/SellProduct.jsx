@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { db } from '../firebase/setup';
 import { uploadImageToCloudinary } from '../Cloudinary/cloudinaryConfig';
 import { addDoc, collection } from "firebase/firestore";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
@@ -21,7 +21,7 @@ const SellProduct = () => {
     console.log({ productName, category, price, location, image })
     setIsLoading(true);
 
-    if (!productName || !category || !price || !location || !image ) {
+    if (!productName || !category || !price || !location || !image) {
       console.log('field required')
       return;
     }
@@ -43,7 +43,7 @@ const SellProduct = () => {
       await addDoc(collection(db, 'products'), productData);
 
       console.log('product added to firebase')
-      
+
       setProductName('');
       setCategory('');
       setPrice('');
@@ -157,10 +157,19 @@ const SellProduct = () => {
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-black text-white py-2 px-4 rounded-md border-2 hover:bg-white hover:text-black hover:border-2  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="w-full bg-black text-white py-2 px-4 rounded-md border-2 hover:bg-white hover:text-black hover:border-2  focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 cursor-pointer"
         >
           {isLoading ? 'Submitting' : 'Submit'}
         </button>
+        <Link to={'/'}>
+          <button
+            type='button'
+            disabled={isLoading}
+            className="w-full bg-gray-300 text-black p-2 mt-2 rounded-md cursor-pointer"
+          >
+            Cancel
+          </button>
+        </Link>
       </form>
     </div>
   );

@@ -7,16 +7,18 @@ import { AuthContext } from '../store/Auth/AuthContext';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase/setup';
 import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
 
     const [showMenu, setShowMenu] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const { user } = useContext(AuthContext);
-    console.log(user);
-
+    const navigate = useNavigate();    
+    
     const logout = () => {
         signOut(auth)
+        navigate('/login')
     }
 
     return (
@@ -69,9 +71,9 @@ function Navbar() {
 
                         {/* Dropdown */}
                         {isDropdownOpen && (
-                            <div className="absolute right-4 top-16 w-48 bg-white shadow-xl  z-10">
+                            <div className="absolute right-4 top-15 w-48 bg-white shadow-xl  z-10">
                                 <div className="p-4 text-center border-b">
-                                    <p className="uppercase text-sm font-semibold text-gray-700">{user.name}</p>
+                                    <p className="uppercase text-sm font-semibold text-gray-700">{user?.name? user.name : 'Unknown'}</p>
                                 </div>
 
                                 <div className="p-3 flex flex-col gap-2">
