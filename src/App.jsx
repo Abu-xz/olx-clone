@@ -4,20 +4,52 @@ import Home from './pages/Home'
 import Signup from './pages/Signup'
 import Login from './pages/Login'
 import SellProduct from './pages/SellProduct'
+import { useEffect, useState } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { auth } from './firebase/setup'
+import { useNavigate } from 'react-router-dom'
+import Loader from './components/Loader'
+import { ToastContainer } from 'react-toastify'
 
 function App() {
 
+  const [isLogged, setIsLogged] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unSubscribe = onAuthStateChanged(auth, (user) => {
+      setLoading(false);
+      if (user) {
+        setIsLogged(true)
+        if (location.pathname === '/login' || location.pathname === '/signup') {
+          navigate('/', { replace: true })
+        }
+      } else {
+        setIsLogged(false);
+        navigate('/login', { replace: true });
+      }
+    })
+
+    return () => unSubscribe();
+  })
+
+
+  if (loading) {
+    console.log('loading state')
+    return <Loader />
+  }
 
   return (
-
-    <Routes>
-      <Route path='/signup' element={<Signup />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/' element={<Home />} />
-      <Route path='/create' element={<SellProduct />} />
-
-    </Routes>
-
+    <>
+      <ToastContainer theme='dark' />
+      <Routes>
+        <Route path='/signup' element={<Signup />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/' element={<Home isLogged={isLogged} />} />
+        <Route path='/create' element={<SellProduct />} />
+      </Routes>
+    </>
   )
 }
 

@@ -3,6 +3,7 @@ import { db } from '../firebase/setup';
 import { uploadImageToCloudinary } from '../Cloudinary/cloudinaryConfig';
 import { addDoc, collection } from "firebase/firestore";
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 
 
@@ -42,7 +43,7 @@ const SellProduct = () => {
 
       await addDoc(collection(db, 'products'), productData);
 
-      console.log('product added to firebase')
+      console.log('product added to firebase');
 
       setProductName('');
       setCategory('');
@@ -50,12 +51,12 @@ const SellProduct = () => {
       setLocation('');
       setImage(null);
       setImagePreview(null);
-      alert('Product added successfully!');
+      toast.success('Product added successfully!');
       navigate('/')
 
     } catch (error) {
       console.error('Error adding product:', error);
-      alert('Failed to add product. Please try again.');
+      toast.error(error.code.split('/')[1].split('-')).join(' ').toUpperCase();
     } finally {
       setIsLoading(false);
     }

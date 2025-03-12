@@ -1,9 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { FaRegHeart, FaSearch, FaRegComment, FaRegBell, FaPlus } from 'react-icons/fa';
 import { RiArrowDropDownLine } from "react-icons/ri";
 import avatar_png from '/avatar_1.png'
 import '../index.css';
-import { AuthContext } from '../store/Auth/AuthContext';
 import { Link } from 'react-router-dom';
 import { auth } from '../firebase/setup';
 import { signOut } from 'firebase/auth';
@@ -13,9 +12,8 @@ function Navbar() {
 
     const [showMenu, setShowMenu] = useState(false);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const { user } = useContext(AuthContext);
-    const navigate = useNavigate();    
-    
+    const navigate = useNavigate();
+
     const logout = () => {
         signOut(auth)
         navigate('/login')
@@ -60,48 +58,48 @@ function Navbar() {
                             className="relative flex items-center cursor-pointer"
                             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                         >
-                        <div className="flex items-center gap-1">
-                            <img
-                                src={avatar_png}
-                                alt="User Avatar"
-                                className="w-[35px] h-[35px] rounded-full"
-                            />
-                            <RiArrowDropDownLine className="text-xl text-gray-500" />
-                        </div>
-
-                        {/* Dropdown */}
-                        {isDropdownOpen && (
-                            <div className="absolute right-4 top-15 w-48 bg-white shadow-xl  z-10">
-                                <div className="p-4 text-center border-b">
-                                    <p className="uppercase text-sm font-semibold text-gray-700">{user?.name? user.name : 'Unknown'}</p>
-                                </div>
-
-                                <div className="p-3 flex flex-col gap-2">
-                                    <button
-                                        className="bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-200"
-                                    >
-                                        View Profile
-                                    </button>
-                                    <Link to={'/login'}>
-                                        <button
-                                            onClick={logout}
-                                            className="bg-red-500 text-white py-2 px-4 w-full rounded-md hover:bg-red-600 transition duration-200"
-                                        >
-                                            Logout
-                                        </button>
-                                    </Link>
-                                </div>
+                            <div className="flex items-center gap-1">
+                                <img
+                                    src={avatar_png}
+                                    alt="User Avatar"
+                                    className="w-[35px] h-[35px] rounded-full"
+                                />
+                                <RiArrowDropDownLine className="text-xl text-gray-500" />
                             </div>
 
-                        )}
+                            {/* Dropdown */}
+                            {isDropdownOpen && (
+                                <div className="absolute right-4 top-15 w-48 bg-white shadow-xl  z-10">
+                                    <div className="p-4 text-center border-b">
+                                        <p className="uppercase text-sm font-semibold text-gray-700">Unknown</p>
+                                    </div>
+
+                                    <div className="p-3 flex flex-col gap-2">
+                                        <button
+                                            className="bg-gray-900 text-white py-2 px-4 rounded-md hover:bg-gray-700 transition duration-200"
+                                        >
+                                            View Profile
+                                        </button>
+                                        <Link to={'/login'}>
+                                            <button
+                                                onClick={logout}
+                                                className="bg-red-500 text-white py-2 px-4 w-full rounded-md hover:bg-red-600 transition duration-200"
+                                            >
+                                                Logout
+                                            </button>
+                                        </Link>
+                                    </div>
+                                </div>
+
+                            )}
+                        </div>
+                        <Link to={'/create'} className="flex items-center border-3 border-b-yellow-300 border-t-cyan-400 border-r-green-600 border-l-blue-500 text-green-950 font-bold px-4 py-2 rounded-4xl cursor-pointer">
+                            <FaPlus className="mr-2" />
+                            Sell
+                        </Link>
                     </div>
-                    <Link to={'/create'} className="flex items-center border-3 border-b-yellow-300 border-t-cyan-400 border-r-green-600 border-l-blue-500 text-green-950 font-bold px-4 py-2 rounded-4xl cursor-pointer">
-                        <FaPlus className="mr-2" />
-                        Sell
-                    </Link>
                 </div>
-            </div>
-        </header >
+            </header >
 
 
             <nav className="flex flex-wrap items-center gap-4 md:gap-14 bg-white border-gray-200 border-2 py-2 mt-2 px-6 md:px-12 mb-20">

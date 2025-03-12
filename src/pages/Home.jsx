@@ -1,11 +1,21 @@
 import Navbar from '../components/Navbar'
 import ProductList from '../components/ProductList'
 import Footer from '../components/Footer'
+import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react';
 
 
-function Home() {
+function Home({ isLogged }) {
 
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        if (!isLogged) {
+            navigate('/login')
+            return;
+        }
+
+    }, [isLogged, navigate])
 
     return (
         <>

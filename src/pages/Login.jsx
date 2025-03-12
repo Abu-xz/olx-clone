@@ -3,15 +3,14 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/setup";
 import { Link, useNavigate } from "react-router-dom";
 import { getDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
 
 
 const Login = () => {
-    // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
-
 
 
     const handleSubmit = async (e) => {
@@ -26,10 +25,11 @@ const Login = () => {
             const userData = userDoc.exists() ? userDoc.data() : { name: 'Unknown' };
             console.log('User data', userData)
           
-            alert('logged in successfully')
+            toast.success('Login Success!')
             navigate('/')
         } catch (error) {
-            console.log(error)
+            console.log("Error while user creation",error)
+            toast.error(error.code.split('/')[1].split('-')).join(' ').toUpperCase();
         }
     };
 
@@ -38,13 +38,6 @@ const Login = () => {
             <div className="w-96 p-6 bg-white shadow-md rounded-lg">
                 <h2 className="text-2xl font-semibold text-center mb-4">Log In</h2>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                    {/* <input
-                        type="text"
-                        placeholder="Name"
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        className="p-2 border rounded focus:outline-none focus:border-none focus:ring-2 focus:ring-blue-400"
-                    /> */}
                     <input
                         type="email"
                         placeholder="Email"

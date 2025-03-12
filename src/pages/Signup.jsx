@@ -3,7 +3,7 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth, db } from "../firebase/setup";
 import { setDoc, doc } from "firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../store/Auth/AuthContext";
+import { toast } from "react-toastify";
 
 const Signup = () => {
     const [name, setName] = useState("");
@@ -28,16 +28,16 @@ const Signup = () => {
                     name,
                     email,
                 })
-
-                // setup user data
             } else {
                 console.error('User UID is undefined')
             }
-            console.log('user created successfully')
-
+            console.log('user created successfully');
+            toast.success('User created successfully!')
             navigate('/')
+
         } catch (error) {
-            console.log(error)
+            console.log("Error while user creation", error)
+            toast.error(error.code.split('/')[1].split('-')).join(' ').toUpperCase();
         }
     };
 
