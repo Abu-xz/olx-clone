@@ -37,7 +37,7 @@ const Signup = () => {
 
         } catch (error) {
             console.log("Error while user creation", error)
-            toast.error(error.code.split('/')[1].split('-')).join(' ').toUpperCase();
+            toast.error(error.code.split('/')[1].split('-').join(' ').toUpperCase())
         }
     };
 

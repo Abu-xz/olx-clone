@@ -21,35 +21,37 @@ function App() {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
       setLoading(false);
       if (user) {
-        setIsLogged(true)
-        if (location.pathname === '/login' || location.pathname === '/signup') {
-          navigate('/', { replace: true })
+        setIsLogged(true);
+        if (location.pathname === "/login" || location.pathname === "/signup") {
+          navigate("/", { replace: true });
         }
       } else {
         setIsLogged(false);
-        navigate('/login', { replace: true });
+
+        // Allow navigation to /signup, but redirect to /login if it's not /signup
+        if (location.pathname !== "/signup") {
+          navigate("/login", { replace: true });
+        }
       }
+
+      return () => unSubscribe();
     })
-
-    return () => unSubscribe();
-  })
+  }, [navigate])
 
 
-  if (loading) {
-    console.log('loading state')
-    return <Loader />
-  }
 
   return (
-    <>
-      <ToastContainer theme='dark' />
-      <Routes>
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/' element={<Home isLogged={isLogged} />} />
-        <Route path='/create' element={<SellProduct />} />
-      </Routes>
-    </>
+    loading ? <Loader />
+      :
+      <>
+        <ToastContainer theme='dark' />
+        <Routes>
+          <Route path='/signup' element={<Signup />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/' element={<Home isLogged={isLogged} />} />
+          <Route path='/create' element={<SellProduct />} />
+        </Routes>
+      </>
   )
 }
 
